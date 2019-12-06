@@ -592,7 +592,7 @@ class KFlash:
                             break
                         except TimeoutError:
                             pass
-                elif args.Board == "dan" or args.Board == "bit" or args.Board == "kd233":
+                elif args.Board == "bananapi" or args.Board == "dan" or args.Board == "bit" or args.Board == "kd233":
                     KFlash.log(INFO_MSG,"CH340 mode", BASH_TIPS['DEFAULT'])
                     # This is for CH340, contained dan, bit and kd233
                     baudrate_stage0 = int(baudrate * 38.4 / 38)
@@ -1122,7 +1122,7 @@ class KFlash:
             parser.add_argument("-t", "--terminal", help="Start a terminal after finish (Python miniterm)", default=False, action="store_true")
             parser.add_argument("-n", "--noansi", help="Do not use ANSI colors, recommended in Windows CMD", default=False, action="store_true")
             parser.add_argument("-s", "--sram", help="Download firmware to SRAM and boot", default=False, action="store_true")
-            parser.add_argument("-B", "--Board",required=False, type=str, help="Select dev board, e.g. kd233, dan, bit, goD, goE or trainer")
+        parser.add_argument("-B", "--Board",required=False, type=str, help="Select dev board, e.g. bananapi, kd233, dan, bit, goD, goE or trainer")
             parser.add_argument("-S", "--Slow",required=False, help="Slow download mode", default=False)
             parser.add_argument("firmware", help="firmware bin path")
             args = parser.parse_args()
@@ -1244,7 +1244,7 @@ class KFlash:
                     err = (ERROR_MSG,"No vaild Kendryte K210 found in Auto Detect, Check Your Connection or Specify One by"+BASH_TIPS['GREEN']+'`-p '+('/dev/ttyUSB0', 'COM3')[sys.platform == 'win32']+'`',BASH_TIPS['DEFAULT'])
                     err = tuple2str(err)
                     raise_exception( Exception(err) )
-                if args.Board == "dan" or args.Board == "bit" or args.Board == "trainer":
+            if args.Board == "bananapi" or args.Board == "dan" or args.Board == "bit" or args.Board == "trainer":
                     try:
                         KFlash.log('.', end='')
                         self.loader.reset_to_isp_dan()
@@ -1423,7 +1423,7 @@ class KFlash:
                     self.loader.flash_firmware(firmware_bin.read())
 
         # 3. boot
-        if args.Board == "dan" or args.Board == "bit" or args.Board == "trainer":
+        if args.Board == "bananapi" or args.Board == "dan" or args.Board == "bit" or args.Board == "trainer":
             self.loader.reset_to_boot_dan()
         elif args.Board == "kd233":
             self.loader.reset_to_boot_kd233()
